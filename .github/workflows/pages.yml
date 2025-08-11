@@ -1,4 +1,4 @@
-name: Build & Deploy user site with subpath app
+name: Build & Deploy multi-subpath apps
 
 on:
   push:
@@ -26,29 +26,34 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
-          cache-dependency-path: genmdm-explorer/package.json
+          cache-dependency-path: |
+            genmdm-explorer/package.json
+            arduinoboy/package.json
 
-      - name: Install deps
+      - name: Install deps (GenMDM)
         working-directory: genmdm-explorer
-        run: npm install
+        run: npm ci
 
-      - name: Build Vite app
+      - name: Build (GenMDM)
         working-directory: genmdm-explorer
         run: npm run build
 
-      - name: Prepare site artifact (root + subpath)
+      - name: Install deps (Arduinoboy)
+        working-directory: arduinoboy
+        run: npm ci
+
+      - name: Build (Arduinoboy)
+        working-directory: arduinoboy
+        run: npm run build
+
+      - name: Prepare Pages artifact
         run: |
-          mkdir -p site/genmdm-explorer
+          mkdir -p site/genmdm-explorer site/arduinoboy
           cp -r genmdm-explorer/dist/* site/genmdm-explorer/
-          # Optional: simple root index that links to the app
-          cat > site/index.html <<'HTML'
-          <!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-          <title>eggstoastbacon.github.io</title>
-          <body style="font-family:system-ui;padding:40px;background:#0a0a0a;color:#e5e5e5">
-            <h1>User Site</h1>
-            <p>Open <a href="/genmdm-explorer/">GenMDM Explorer</a>.</p>
-          </body>
-          HTML
+          cp -r arduinoboy/dist/* site/arduinoboy/
+          # optional root index
+          if [ -f index.html ]; then cp index.html site/index.html; fi
+          if [ -f README.md ]; then cp README.md site/README.md; fi
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
