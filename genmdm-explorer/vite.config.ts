@@ -1,8 +1,8 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// User/Org site: base must bee '/'
+// Project under user site subpath: /genmdm-explorer/
 export default defineConfig({
   plugins: [react()],
-  base: '/',
+  base: '/genmdm-explorer/',
 })
