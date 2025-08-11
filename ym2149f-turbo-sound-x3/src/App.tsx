@@ -1,6 +1,15 @@
 import React, { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
+// nearer the top (one-third down)
+<RetroSwirlBackground fixed yBias={0.28} speed={1} density={8} glow={1.1} />
+
+// or lock it even higher:
+<RetroSwirlBackground fixed yBias={0.22} />
+
+// if you *don’t* want it fixed, but still biased up:
+<RetroSwirlBackground fixed={false} yBias={0.25} />
+
 type CCRow = { cc: string; name: string; range: string; notes?: string };
 
 export default function App() {
@@ -156,4 +165,5 @@ function Th({ children }: { children: React.ReactNode }) {
 function Td({ children }: { children: React.ReactNode }) {
   return <td className="px-3 py-2 align-top">{children}</td>;
 }
+
 
