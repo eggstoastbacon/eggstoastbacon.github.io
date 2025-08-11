@@ -32,7 +32,7 @@ jobs:
 
       - name: Install deps (GenMDM)
         working-directory: genmdm-explorer
-        run: npm ci
+        run: npm install
 
       - name: Build (GenMDM)
         working-directory: genmdm-explorer
@@ -40,7 +40,7 @@ jobs:
 
       - name: Install deps (Arduinoboy)
         working-directory: arduinoboy
-        run: npm ci
+        run: npm install
 
       - name: Build (Arduinoboy)
         working-directory: arduinoboy
