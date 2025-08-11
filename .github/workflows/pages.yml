@@ -29,6 +29,7 @@ jobs:
           cache-dependency-path: |
             genmdm-explorer/package.json
             arduinoboy/package.json
+            ym2149f-turbo-sound-x3/package.json
 
       - name: Install deps (GenMDM)
         working-directory: genmdm-explorer
@@ -46,14 +47,22 @@ jobs:
         working-directory: arduinoboy
         run: npm run build
 
+      - name: Install deps (YM2149F x3)
+        working-directory: ym2149f-turbo-sound-x3
+        run: npm install
+
+      - name: Build (YM2149F x3)
+        working-directory: ym2149f-turbo-sound-x3
+        run: npm run build
+
       - name: Prepare Pages artifact
         run: |
-          mkdir -p site/genmdm-explorer site/arduinoboy
+          mkdir -p site/genmdm-explorer site/arduinoboy site/ym2149f-turbo-sound-x3
           cp -r genmdm-explorer/dist/* site/genmdm-explorer/
           cp -r arduinoboy/dist/* site/arduinoboy/
-          # optional root index
+          cp -r ym2149f-turbo-sound-x3/dist/* site/ym2149f-turbo-sound-x3/
+          # root index
           if [ -f index.html ]; then cp index.html site/index.html; fi
-          if [ -f README.md ]; then cp README.md site/README.md; fi
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
