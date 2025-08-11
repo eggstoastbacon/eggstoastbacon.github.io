@@ -43,7 +43,6 @@ export default function App() {
           <Panel title="Quick Links">
             <ul className="text-sm leading-7 text-neutral-300 list-disc pl-5">
               <li><a className="underline" href="https://github.com/Chiptune-Anamnesis/ym2149f-turbo-sound-x3" target="_blank">Project repository</a></li>
-              <li><a className="underline" href="https://github.com/Chiptune-Anamnesis/Arduinoboy_Main" target="_blank">Arduinoboy_Main (related)</a></li>
             </ul>
           </Panel>
 
@@ -157,3 +156,4 @@ function Th({ children }: { children: React.ReactNode }) {
 function Td({ children }: { children: React.ReactNode }) {
   return <td className="px-3 py-2 align-top">{children}</td>;
 }
+
