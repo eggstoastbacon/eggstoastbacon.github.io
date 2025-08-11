@@ -36,7 +36,14 @@ export default function GenMDMExplorer() {
   return (
     <div className="min-h-screen w-full bg-neutral-950 text-white relative">
       {/* Animated retro swirls background (sits under content) */}
-      <RetroSwirlBackground speed={1} density={8} glow={1.1} />
+      // nearer the top (one-third down)
+<RetroSwirlBackground fixed yBias={0.28} speed={1} density={6} glow={0.5} />
+
+// or lock it even higher:
+<RetroSwirlBackground fixed yBias={0.22} />
+
+// if you *don’t* want it fixed, but still biased up:
+<RetroSwirlBackground fixed={false} yBias={0.25} />
 
       <header className="relative z-10 mx-auto max-w-7xl px-4 py-6 flex items-center justify-between">
         <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">GenMDM Explorer</h1>
