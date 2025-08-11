@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import RetroSwirlBackground from "./components/RetroSwirlBackground";
 
 // —— Data modeled from little‑scale’s GenMDM v102/v103 posts and quick refs ——
 // Source links are shown in the UI under “Resources”.
@@ -21,13 +22,15 @@ export default function GenMDMExplorer() {
   );
 
   return (
-    <div className="min-h-screen w-full bg-neutral-950 text-white">
-      <header className="mx-auto max-w-7xl px-4 py-6 flex items-center justify-between">
+    <div className="min-h-screen w-full bg-neutral-950 text-white relative">
+      <RetroSwirlBackground speed={1} density={8} glow={1.1} />
+
+      <header className="mx-auto max-w-7xl px-4 py-6 flex items-center justify-between relative">
         <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">GenMDM Explorer</h1>
         <div className="text-xs sm:text-sm text-neutral-400">Little‑Scale archive • YM2612 + SN76489</div>
       </header>
 
-      <main className="mx-auto max-w-7xl px-4 pb-16 grid lg:grid-cols-4 gap-6">
+      <main className="mx-auto max-w-7xl px-4 pb-16 grid lg:grid-cols-4 gap-6 relative">
         {/* Left column */}
         <div className="space-y-6 lg:col-span-1">
           <Panel title="Firmware">
@@ -35,7 +38,7 @@ export default function GenMDMExplorer() {
               <Toggle active={fw === "v103"} onClick={() => setFw("v103")} label="v103" />
               <Toggle active={fw === "v102"} onClick={() => setFw("v102")} label="v102" />
             </div>
-            <p className="mt-2 text-xs text-neutral-400">
+            <p className="mt-2 text-xs text-neutral-300">
               v103 adds TL Equal mode and FM/PSG data capture & acquire. v102 introduced RAM instrument store/recall and native DIN MIDI mod.
             </p>
           </Panel>
@@ -59,7 +62,7 @@ export default function GenMDMExplorer() {
           </Panel>
 
           <Panel title="Resources">
-            <ul className="text-sm leading-6 text-neutral-300 list-disc pl-5">
+            <ul className="text-sm leading-6 text-neutral-200/90 list-disc pl-5">
               <li><a className="underline" href="https://little-scale.blogspot.com/2014/01/genmdm-v103-equal-tl-mode-fm-and-psg.html" target="_blank">GenMDM v103 post + mapping</a></li>
               <li><a className="underline" href="https://little-scale.blogspot.com/2013/01/genmdm-firmware-v102.html" target="_blank">GenMDM v102 post + notes</a></li>
               <li><a className="underline" href="https://www.alyjameslab.com/tutorials/GENMDM_102_FMDrive.pdf" target="_blank">v102 Quick Ref (PDF)</a></li>
@@ -77,7 +80,7 @@ export default function GenMDMExplorer() {
           <FeatureSpecs />
 
           <Panel title={`CC Browser (${filtered.length} items)`}>
-            <div className="rounded-xl border border-neutral-800 overflow-hidden">
+            <div className="rounded-xl border border-neutral-800/80 bg-neutral-950/40 backdrop-blur-[1px] overflow-hidden">
               <table className="w-full text-sm">
                 <thead className="bg-neutral-900/60 text-neutral-300">
                   <tr className="text-left">
@@ -101,7 +104,7 @@ export default function GenMDMExplorer() {
                         <Td>{r.cc}</Td>
                         <Td>{r.range}</Td>
                         <Td>{r.channels}</Td>
-                        <Td className="text-neutral-400">{r.notes}</Td>
+                        <Td className="text-neutral-300/90">{r.notes}</Td>
                         <Td>
                           <button className="px-2 py-1 text-xs rounded-lg border border-neutral-700 hover:bg-neutral-800" onClick={() => copyRow(r)}>Copy</button>
                         </Td>
@@ -240,7 +243,7 @@ function copyRow(r: Row) {
 // ——— UI pieces ———
 function Panel({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-2xl border border-neutral-800 bg-neutral-900/40 p-4 shadow-[inset_0_1px_#111]">
+    <div className="rounded-2xl border border-neutral-800 bg-neutral-900/40 p-4 shadow-[inset_0_1px_#111] backdrop-blur-[1px]">
       <div className="flex items-center justify-between">
         <h2 className="text-sm font-semibold tracking-wide text-neutral-200">{title}</h2>
       </div>
@@ -257,7 +260,7 @@ function Toggle({ active, onClick, label }: { active: boolean; onClick: () => vo
 
 function Search({ value, onChange, placeholder }: { value: string; onChange: (v: string) => void; placeholder?: string }) {
   return (
-    <input value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} className="w-full rounded-xl bg-neutral-900 border border-neutral-800 px-3 py-2 text-sm outline-none focus:border-neutral-600" />
+    <input value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} className="w-full rounded-xl bg-neutral-900/70 border border-neutral-800 px-3 py-2 text-sm outline-none focus:border-neutral-600 backdrop-blur-[2px]" />
   );
 }
 
@@ -270,12 +273,12 @@ function Td({ children }: { children: React.ReactNode }) {
 
 function HeroCard() {
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-neutral-800 bg-gradient-to-b from-neutral-950 to-neutral-900 p-6">
+    <div className="relative overflow-hidden rounded-3xl border border-neutral-800 bg-gradient-to-b from-neutral-950/90 to-neutral-900/70 p-6 backdrop-blur-[2px]">
       <div className="absolute -top-24 -right-24 h-72 w-72 rounded-full" style={{ background: "radial-gradient(circle at center, #1ef4a6 0%, transparent 60%)", filter: "blur(40px)", opacity: 0.25 }} />
       <div className="absolute -bottom-20 -left-16 h-64 w-64 rounded-full" style={{ background: "radial-gradient(circle at center, #21d0ff 0%, transparent 60%)", filter: "blur(40px)", opacity: 0.25 }} />
       <div className="relative">
         <h2 className="text-xl sm:text-2xl font-bold">What is GenMDM?</h2>
-        <p className="mt-2 text-neutral-300 leading-7">
+        <p className="mt-2 text-neutral-200 leading-7">
           GenMDM is a MIDI interface for the Sega Mega Drive / Genesis that exposes the <strong>YM2612</strong> (6 FM voices + DAC) and <strong>SN76489</strong> (4 PSG voices) to your DAW via USB or DIN MIDI. It’s up to <strong>10‑part multitimbral</strong>, responds to notes / velocity / pitch bend and extensive MIDI CCs, and supports PAL/NTSC and microtonal tuning.
         </p>
       </div>
@@ -287,7 +290,7 @@ function FeatureSpecs() {
   return (
     <div className="grid md:grid-cols-2 gap-6">
       <Panel title="Features (highlights)">
-        <ul className="list-disc pl-5 text-neutral-300 leading-7 text-sm">
+        <ul className="list-disc pl-5 text-neutral-200 leading-7 text-sm">
           <li>USB MIDI device + optional 5‑pin DIN input (Teensy UART RX mod)</li>
           <li>6× FM (YM2612) + 4× PSG (SN76489); Ch. 11–13 for YM2612 Voice‑3 special mode</li>
           <li>Full FM parameter control via CCs: algorithm, feedback, TL, envelopes, detune, AMS/FMS, SSG‑EG</li>
@@ -298,7 +301,7 @@ function FeatureSpecs() {
         </ul>
       </Panel>
       <Panel title="Technical specifications">
-        <ul className="list-disc pl-5 text-neutral-300 leading-7 text-sm">
+        <ul className="list-disc pl-5 text-neutral-200 leading-7 text-sm">
           <li><strong>MIDI Channels:</strong> 1–6 = YM2612 voices; 7–10 = SN76489; 11–13 = YM2612 Voice‑3 Special Mode</li>
           <li><strong>Firmware:</strong> v101–v103 documented; v102 adds DIN MIDI mod + 15 RAM instruments; v103 adds capture/acquire</li>
           <li><strong>Host:</strong> Appears as standard USB MIDI device (class‑compliant)</li>
@@ -329,8 +332,8 @@ function ChannelMap() {
   return (
     <div className="grid grid-cols-4 gap-2">
       {cells.map((c) => (
-        <div key={c.ch} className="rounded-xl border border-neutral-800 bg-neutral-900/60 p-3 text-center text-xs">
-          <div className="text-neutral-400">Ch {c.ch}</div>
+        <div key={c.ch} className="rounded-xl border border-neutral-800 bg-neutral-900/60 p-3 text-center text-xs backdrop-blur-[1px]">
+          <div className="text-neutral-300">Ch {c.ch}</div>
           <div className="font-semibold text-neutral-100 mt-1">{c.txt}</div>
         </div>
       ))}
