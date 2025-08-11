@@ -1,0 +1,67 @@
+name: Build & Deploy user site with subpath app
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: genmdm-explorer/package.json
+
+      - name: Install deps
+        working-directory: genmdm-explorer
+        run: npm install
+
+      - name: Build Vite app
+        working-directory: genmdm-explorer
+        run: npm run build
+
+      - name: Prepare site artifact (root + subpath)
+        run: |
+          mkdir -p site/genmdm-explorer
+          cp -r genmdm-explorer/dist/* site/genmdm-explorer/
+          # Optional: simple root index that links to the app
+          cat > site/index.html <<'HTML'
+          <!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+          <title>eggstoastbacon.github.io</title>
+          <body style="font-family:system-ui;padding:40px;background:#0a0a0a;color:#e5e5e5">
+            <h1>User Site</h1>
+            <p>Open <a href="/genmdm-explorer/">GenMDM Explorer</a>.</p>
+          </body>
+          HTML
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
