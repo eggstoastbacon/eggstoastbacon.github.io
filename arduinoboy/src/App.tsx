@@ -30,7 +30,7 @@ export default function App() {
           <Panel title="Quick Links">
             <ul className="text-sm leading-7 text-neutral-300 list-disc pl-5">
               <li><a className="underline" href="https://arduinoboy-editor.web.app/" target="_blank">Arduinoboy Editor (web)</a></li>
-              <li><a className="underline" href="https://github.com/Chiptune-Anamnesis/Arduinoboy_Main" target="_blank">Your Arduinoboy_Main repo</a></li>
+              <li><a className="underline" href="https://github.com/Chiptune-Anamnesis/Arduinoboy_Main" target="_blank">HobbyChop Arduinoboy repo</a></li>
               <li><a className="underline" href="https://github.com/trash80/Arduinoboy" target="_blank">Upstream Arduinoboy (trash80)</a></li>
               <li><a className="underline" href="https://github.com/trash80/mGB" target="_blank">mGB cartridge (trash80)</a></li>
             </ul>
